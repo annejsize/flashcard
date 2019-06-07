@@ -1,15 +1,15 @@
 //WORD CONTROLLER
 var wordController  = (function(){
-    
-    var Word = function(id, word, description){
+    //set constructor
+    var Word = function(id, word){
         this.id = id,
-        this.word = word,
-        this.description = description
+        this.word = word
     };
+    // pull in array of word 
+    // for now list will be hard coded
+    var pulledWords = ['apple', 'orange', 'something'];
 
-    var wordBank = ['apple', 'orange', 'something'];
-    var definitionBank = ['red fruid', 'orange fruit', 'to denote a generic thing'];
-
+    //
     var data = {
         wordBank: {
             new: [],
@@ -21,41 +21,44 @@ var wordController  = (function(){
         },
     };
 
-    var addingWords = function (wordArray, definitionArray) {
+    //push pulled list into new array
+    var addingWords = function (wordArray) {
         for(var i = 0; i < wordArray.length; i++)
         {
             var object = new Word;
             object.id = i;
             object.word = wordArray[i];
-            object.description = definitionArray[i];
             data.wordBank.new.push(object);
             console.log(object);
         }
         return data.wordBank.new;
     };
 
+    //shuffle array
     var shufflingWords = function(array) {
         for (let i = array.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [array[i], array[j]] = [array[j], array[i]];
         }
             return array;
-        }
-
+        };
 
     return {
         generateArrays: function() {
-            addingWords(wordBank, definitionBank);
+            addingWords(pulledWords);
+            var getArray = data.wordBank.new;
+            return getArray;
         },
 
-        getWords: function() {
-           var getArray = data.wordBank.new;
-           return getArray;
-        },
 
         shuffling: function(array) {
             var shuffledWords = shufflingWords(array);
             return shuffledWords;
+        },
+
+        addToCount: function() {
+            data.score.wordCount++;
+            return data.score.wordCount;
         }
     };
 })();
@@ -63,7 +66,7 @@ var wordController  = (function(){
 //UI CONTROLLER
 var UIController  = (function(){
     var DOMstrings = {
-        wordCard: '.card__text',
+        wordCard: 'card__text',
         rightBtn: '.right__btn',
         leftBtn: '.left__btn',
         helpBtn: '.definition__btn'
@@ -77,8 +80,8 @@ var UIController  = (function(){
             html = ' <h2 class="card__text--size">%selectedWord%</h2>'
             //replace placeholder w/ actual data
             newHtml = html.replace('%selectedWord%', word);
-            //insert HTML into DOM
-            document.querySelector(element).insertAdjacentHTML('beforeEnd', newHtml);       
+            console.log(element);
+            document.getElementById(element).innerHTML = newHtml ;
         },
 
         getDomstrings: function() {
@@ -99,10 +102,10 @@ var controller  = (function(wordCtrl, uiCtrl){
 };
 
 var ctrlShowNextWord = function() {
-    var test = wordCtrl.getWords();
-    var test1 = wordCtrl.shuffling(test);
-    console.log(test1[0].word);
+    var test = wordCtrl.generateArrays();
+    var test = wordCtrl.shuffling(test);
     uiCtrl.addWordToCard(test[0].word);
+    score = console.log(wordCtrl.addToCount());
 };
 
 var ctrlShowPrevWord = function() {
@@ -116,7 +119,7 @@ var ctrlShowDefinition = function() {
 return {
     init: function() {
         console.log("App has started");
-        wordCtrl.generateArrays();
+        
         setUpEventListners();        
     }
 };
