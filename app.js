@@ -8,12 +8,11 @@ var wordController  = (function(){
     // pull in array of word 
     // for now list will be hard coded
     var pulledWords = ['apple', 'orange', 'something'];
-
     //
     var data = {
         wordBank: {
-            new: [],
-            used: []
+            original: [],
+            sorted: []
         },
         score: {
             wordCount: 0,
@@ -28,33 +27,34 @@ var wordController  = (function(){
             var object = new Word;
             object.id = i;
             object.word = wordArray[i];
-            data.wordBank.new.push(object);
+            data.wordBank.original.push(object);
             console.log(object);
         }
-        return data.wordBank.new;
+        return data.wordBank.original;
     };
 
     //shuffle array
     var shufflingWords = function(array) {
         for (let i = array.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
-            [array[i], array[j]] = [array[j], array[i]];
+            [array[i], array[j]] = [array[j], array[i]];           
         }
+            data.wordBank.sorted = array;
             return array;
         };
 
     return {
         generateArrays: function() {
             addingWords(pulledWords);
-            var getArray = data.wordBank.new;
+            shufflingWords(data.wordBank.original);
+            var getArray = data.wordBank.sorted;
             return getArray;
         },
 
-
-        shuffling: function(array) {
-            var shuffledWords = shufflingWords(array);
-            return shuffledWords;
+        getSortedArray: function() { 
+            return data.wordBank.sorted;
         },
+
 
         addToCount: function() {
             data.score.wordCount++;
@@ -102,10 +102,13 @@ var controller  = (function(wordCtrl, uiCtrl){
 };
 
 var ctrlShowNextWord = function() {
-    var test = wordCtrl.generateArrays();
-    var test = wordCtrl.shuffling(test);
-    uiCtrl.addWordToCard(test[0].word);
-    score = console.log(wordCtrl.addToCount());
+    score = wordCtrl.addToCount();
+    console.log(score);
+    index = score - 1;
+    array = wordCtrl.getSortedArray();
+    console.log(array);
+    uiCtrl.addWordToCard(array[index].word);   
+    //Update score
 };
 
 var ctrlShowPrevWord = function() {
@@ -118,9 +121,10 @@ var ctrlShowDefinition = function() {
 
 return {
     init: function() {
-        console.log("App has started");
-        
-        setUpEventListners();        
+        console.log("App has started");       
+        setUpEventListners();   
+        wordCtrl.generateArrays();
+        //initlize score
     }
 };
     
