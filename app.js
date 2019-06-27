@@ -18,6 +18,7 @@ var wordController  = (function(){
             wordCount: 0,
             wordsHelped: 0
         },
+        name: ' '
     };
 
     //push pulled list into new array
@@ -59,7 +60,14 @@ var wordController  = (function(){
         addToCount: function() {
             data.score.wordCount++;
             return data.score.wordCount;
+        },
+
+        addName: function(name) {
+            data.name = name;
+            console.log(data.name);
         }
+
+
     };
 })();
 
@@ -69,7 +77,8 @@ var UIController  = (function(){
         wordCard: 'card__text',
         rightBtn: '.right__btn',
         leftBtn: '.left__btn',
-        helpBtn: '.definition__btn'
+        helpBtn: '.definition__btn',
+        startBtn: '.start__btn'
     };
 
     return {
@@ -86,7 +95,13 @@ var UIController  = (function(){
 
         getDomstrings: function() {
             return DOMstrings;
-        }
+        },
+
+        changeVisibility: function(elementId) {
+            var x = document.getElementById(elementId);
+              x.style.visibility = 'visible';
+              document.getElementById('introduction').style.visibility = 'hidden';
+          }
     };   
     
 })();
@@ -99,6 +114,7 @@ var controller  = (function(wordCtrl, uiCtrl){
         document.querySelector(DOM.rightBtn).addEventListener('click', ctrlShowNextWord);
         document.querySelector(DOM.leftBtn).addEventListener('click', ctrlShowPrevWord);
         document.querySelector(DOM.helpBtn).addEventListener('click', ctrlShowDefinition);
+        document.querySelector(DOM.startBtn).addEventListener('click', ctrlStartGame)
 };
 
 var ctrlShowNextWord = function() {
@@ -118,6 +134,14 @@ var ctrlShowPrevWord = function() {
 var ctrlShowDefinition = function() {
     console.log('help');
 };
+
+var ctrlStartGame = function() {
+    var name = document.getElementById("getName").value;
+    console.log(name);
+    wordCtrl.addName(name);
+    uiCtrl.changeVisibility("container");
+
+}
 
 return {
     init: function() {

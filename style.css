@@ -49,11 +49,12 @@ body {
      font-family: "Schoolbell", cursive;
    }
   
-  .introduction {
+  #introduction {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin: 10rem;
+    visibility: show;
   }
 
   .introduction__text {
@@ -98,8 +99,8 @@ body {
     background-color: #66AB8C;
     transform: translateY(2px);
   }
-  
-.container {
+
+#container {
     width: 750px;
     margin: 60px auto;
     visibility: hidden;
