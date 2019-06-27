@@ -2,22 +2,25 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <link href="https://fonts.googleapis.com/css?family=Open+Sans:100,300,400,600" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Lato|Schoolbell&display=swap" rel="stylesheet">
+        
         <link href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" >
         <link type="text/css" rel="stylesheet" href="style.css">
         <title>Flash Cards</title>
     </head>
     <body>
-<div>
-    <h1>Flash Cards App</h1>
-</div>
-<! -- INSERT MODULE HERE -->
-<form>
-    <h1>Hi! What's your name?</h1>
-    <input type="text" name="Name" value="Your first name"><br>
-    <input type="submit" value="Let's start the game!">
-</form>
-<! -- INSERT MODULE HERE -->
+        <header class="header">
+            <i class="far fa-comment-alt"></i>
+            <h1>What's Dat Word?</h1>
+          </header>
+          
+          <div class="introduction">
+            <h1 class="introduction__text">Before we play, tell me your name:</h1>
+            <input type="text" name="Name" placeholder="Enter your name"><br>
+            <input type="submit" value="Show me the words!">
+          </div>
+
 <div class="container">
    <div class="card">
        <div class="card__text" id="card__text">
@@ -35,10 +38,11 @@
             <button class="right__btn btn"><i class="ion-ios-arrow-forward icon"></i></button>
         </div>
    </div>
-</div>
    <div class="score">
+Your score is ...
+</div>
+</div>
 
-   </div>
 
         <script src="app.js"></script>
     </body>
