@@ -65,6 +65,10 @@ var wordController  = (function(){
         addName: function(name) {
             data.name = name;
             console.log(data.name);
+        },
+
+        getScore: function() {
+            return data.score.wordCount;
         }
 
 
@@ -78,7 +82,8 @@ var UIController  = (function(){
         rightBtn: '.right__btn',
         leftBtn: '.left__btn',
         helpBtn: '.definition__btn',
-        startBtn: '.start__btn'
+        startBtn: '.start__btn',
+        score: 'score'
     };
 
     return {
@@ -100,8 +105,15 @@ var UIController  = (function(){
         changeVisibility: function(elementId) {
             var x = document.getElementById(elementId);
               x.style.visibility = 'visible';
-              document.getElementById('introduction').style.visibility = 'hidden';
-          }
+              document.getElementById('introduction').style.display = 'none';
+          },
+
+        showScore: function(score) {
+            element = DOMstrings.score,
+            html = ' <h5 class="card__text--size">%score%</h5>';
+            newHtml = html.replace('%score%', score);
+            document.getElementById(element).innerHTML = newHtml ;            
+        }
     };   
     
 })();
@@ -119,11 +131,10 @@ var controller  = (function(wordCtrl, uiCtrl){
 
 var ctrlShowNextWord = function() {
     score = wordCtrl.addToCount();
-    console.log(score);
-    index = score - 1;
+    console.log(score-1);
     array = wordCtrl.getSortedArray();
-    console.log(array);
-    uiCtrl.addWordToCard(array[index].word);   
+    uiCtrl.addWordToCard(array[score].word);  
+    uiCtrl.showScore(score); 
     //Update score
 };
 
@@ -140,7 +151,9 @@ var ctrlStartGame = function() {
     console.log(name);
     wordCtrl.addName(name);
     uiCtrl.changeVisibility("container");
-
+    array = wordCtrl.getSortedArray();
+    uiCtrl.addWordToCard(array[0].word);
+    uiCtrl.showScore(wordCtrl.getScore());
 }
 
 return {

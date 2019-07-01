@@ -137,8 +137,12 @@ margin-top: 30px;
     font-size: 45px;
     background-color: transparent;
     padding: 10px;
-    color: white;
+    color: black;
     text-align: center;
+}
+
+.score {
+    color: black;
 }
 
 .btn {
